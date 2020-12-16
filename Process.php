@@ -269,6 +269,8 @@ footer{
     $EMT;
     $Trainee;
     $flag=true;
+    $getEMTAlt;
+    $EMTAlt;
 
     // echo "<table width='90%' border='1'>";
     // echo "<tr><th>ID No</th><th>Name</th><th>TS</th><th>Position</th></tr>";
@@ -289,10 +291,7 @@ footer{
     $getEMT = mysqli_query($connection, "SELECT * from attendance where position=3 order by TimeStamp asc");
     $EMT = mysqli_fetch_array($getEMT);
 
-    //get Trainee
-    $getTrainee = mysqli_query($connection, "SELECT * from attendance where position=4 order by TimeStamp asc");
-    $Trainee = mysqli_fetch_array($getTrainee);
-
+    
     //get Team Leader
     $getTeamLeader = mysqli_query($connection, "SELECT * from attendance where position=1 order by TimeStamp asc");
     $countTL = mysqli_num_rows($getTeamLeader);
@@ -301,6 +300,26 @@ footer{
     } else{
         $getEMTAlt = mysqli_query($connection, "SELECT * from attendance where position=3 and ID!='$EMT[0]' order by TimeStamp asc");
         $TeamLeader = mysqli_fetch_array($getEMTAlt);
+        $EMTAlt = mysqli_fetch_array($getEMTAlt);
+    }
+
+
+    //get Trainee
+    $getTrainee = mysqli_query($connection, "SELECT * from attendance where position=4 order by TimeStamp asc");
+    $countT = mysqli_num_rows($getTrainee);
+    $countEMT = mysqli_num_rows($getEMT);
+    if($countT >0){
+        $Trainee = mysqli_fetch_array($getTrainee);
+    }elseif($countEMT>1 && $countTL>1){ 
+        $getTempEMT = mysqli_query($connection, "SELECT * from attendance where position=3 and ID!='$EMTAlt[0]' order by TimeStamp asc");
+        $Trainee = mysqli_fetch_array($getTempEMT);
+    }elseif($countEMT>2 && $countTL<1){
+        $getTempEMT = mysqli_query($connection, "SELECT * from attendance where position=3 and ID!='$EMTAlt[0]' order by TimeStamp asc");
+        $TempEMT = mysqli_fetch_array($getTempEMT);
+        $getAltTrainee = mysqli_query($connection, "SELECT * from attendance where position=3 and ID!='$TempEMT[0]' and ID!='$TeamLeader[0]'");
+        $Trainee = mysqli_fetch_array($getAltTrainee);
+    }else{
+        $Trainee=NULL;
     }
 
     // if($count = mysqli_num_rows($getTeamLeader)>0){
@@ -348,7 +367,12 @@ footer{
     }
     
     if ($Trainee != null){
-        echo "<tr><th><i class='fas fa-user-alt'> Trainee</th><td>{$Trainee["Name"]}</td></tr>";
+
+        if($Trainee[3]==4){
+            echo "<tr><th><i class='fas fa-user-alt'> Trainee</th><td>{$Trainee["Name"]}</td></tr>";
+        }elseif($Trainee[3]==3){
+            echo "<tr><th><i class='fas fa-user-nurse'> EMT</th><td>{$Trainee["Name"]}</td></tr>";
+        }
     }else{
         echo "<tr><th><i class='fas fa-user-alt'> Trainee</th><td>No Trainee</td></tr>";
     }
@@ -378,16 +402,25 @@ footer{
 
     
     if (isset($_POST['next'])) {
-        deleteAtt($TeamLeader[0]);
-        deleteAtt($Driver[0]);
-        deleteAtt($EMT[0]);
-        deleteAtt($Trainee[0]);
+        if($TeamLeader!=NULL){
+            deleteAtt($TeamLeader[0]);
+            updateAtt($TeamLeader[0]);
+        }
 
-        updateAtt($TeamLeader[0]);
-        updateAtt($Driver[0]);
-        updateAtt($EMT[0]);
-        updateAtt($Trainee[0]);
-
+        if($Driver!=NULL){
+            deleteAtt($Driver[0]);
+            updateAtt($Driver[0]);
+        }
+        
+        if($EMT!=NULL){
+            deleteAtt($EMT[0]);
+            updateAtt($EMT[0]);
+        }
+        
+        IF($Trainee!=NULL){
+            deleteAtt($Trainee[0]);
+            updateAtt($Trainee[0]);    
+        }
         echo '<meta http-equiv="refresh" content="0">';      
     }
     function deleteAtt(int $attendie) {
