@@ -14,7 +14,8 @@
 
   <div class="vertical-center">
         <img src=".\images\logo.jfif" alt="Civil Defense">
-        <h3>Welcome to Beirut Regional Department</h3>
+        <h1>Selection Division</h1>
+        <h3>Please Login in order to Continue</h3>
             <form id="login-form" method="post" action="index.php"  >
                 <table border="0.5" >
                     <tr>
@@ -45,12 +46,12 @@
 if (isset($_POST['user_id']) and isset($_POST['user_pass'])){
     $username = $_POST['user_id'];
     $password = $_POST['user_pass'];
-    $query = "SELECT * FROM `user` WHERE username='$username' and password='$password'";
+    $query = "SELECT * FROM `specialuser` WHERE username='$username' and password='$password' and role=2";
     $result = mysqli_query($connection, $query) or die(mysqli_error($connection));
     $count = mysqli_num_rows($result);
 
     if ($count == 1){
-        header('Location: attend.php');
+        header('Location: Position.php');
         echo "<script type='text/javascript'>alert('Login Credentials verified')</script>";
 
     }else{

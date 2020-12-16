@@ -2,6 +2,11 @@
     <head>
         <meta http-equiv="refresh" content="5">
         <script src="https://kit.fontawesome.com/yourcode.js"></script>
+        <script>var span = document.getElementsByClassName("close")[0];
+            span.onclick = function() {
+            modal.style.display = "none";
+             }
+        </script>
          <style>
             #next{
             color: white;
@@ -133,6 +138,70 @@ footer{
     align-items: center;
     margin: 10px 30%;
 }
+
+.alert{
+  padding: 20px;
+  background-color: #f44336; /* Red */
+  color: white;
+  margin-bottom: 15px;
+}
+
+}
+
+
+/* Modal Header */
+.modal-header {
+  padding: 2px 16px;
+  background-color: #FF0000;
+  color: white;
+}
+.modal-header h2{
+    color: #ff0000;
+}
+
+/* Modal Body */
+.modal-body {padding: 2px 16px;}
+.modal-body p{
+    align: center;
+    
+}
+
+/* Modal Footer */
+.modal-footer {
+  padding: 2px 16px;
+  background-color: #5cb85c;
+  color: white;
+  border: 2px solid;
+    border-radius: 20px 20px;
+}
+
+/* Modal Content */
+.modal-content {
+  position: relative;
+  background-color: #fefefe;
+  border: 2px solid blue;
+    border-radius: 50px 20px;
+  padding: 0;
+  border: 1px solid #888;
+  width: 50%;
+  box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2),0 6px 20px 0 rgba(0,0,0,0.19);
+  animation-name: animatetop;
+  animation-duration: 0.4s;
+    text-align: center;
+    align-items: center;
+    vertical-align: middle;
+    margin: 0 auto;
+}
+
+/* Add Animation */
+@keyframes animatetop {
+  from {top: -300px; opacity: 0}
+  to {top: 0; opacity: 1}
+}
+
+/* Start https://www.cursors-4u.com */ * {cursor: url(https://cur.cursors-4u.net/mechanics/mec-5/mec472.cur), auto !important;} /* End https://www.cursors-4u.com */
+
+
          </style>
          <script src='https://kit.fontawesome.com/a076d05399.js'></script>
     </head>
@@ -199,7 +268,7 @@ footer{
     $Driver;
     $EMT;
     $Trainee;
-
+    $flag=true;
 
     // echo "<table width='90%' border='1'>";
     // echo "<tr><th>ID No</th><th>Name</th><th>TS</th><th>Position</th></tr>";
@@ -267,7 +336,8 @@ footer{
             echo "<tr><th><i class='fas fa-user-md'></i> Team Leader</th><td>{$TeamLeader["Name"]}</td></tr>";
         }
     }else{
-            echo "<tr><th><i class='fas fa-user-md'></i> Team Leader</th><td>No Team Leader</td></tr>";
+        echo "<tr><th><i class='fas fa-user-md'></i> EMT or Team Leader</th><td>No Team Leader</td></tr>";
+        $flag=false;
         }
     
 
@@ -288,6 +358,23 @@ footer{
     // echo '<form id="next-form" method="post" action="Process.php">';
     // echo '<button id="next" type="submit" form="next-form" value="next" name="next">Next Team</button>';
     
+    if($flag==false){
+        // echo '<script class="alert" language="javascript">';
+        // echo 'alert("No qualified Team")';
+        // echo '</script>';
+        echo '<div class="modal-content">
+            <div class="modal-header">
+                <i class="fas fa-exclamation-triangle" style="font-size:48px;color:red"></i><h2>Attention!</h2>
+            </div>
+            <div class="modal-body">
+                <p>No Qualified Team</p>
+                <p> Nor Second EMT or Team Leader are available</p>
+            </div>
+            <div class="modal-footer">
+            <h3>Beirut Regional Department | Lebanese Civil Defense</h3>
+            </div>
+            </div>';
+    }
 
     
     if (isset($_POST['next'])) {
@@ -320,8 +407,8 @@ footer{
             $Row = mysqli_fetch_array($dbR);
             $countIn = mysqli_num_rows($dbR);
             $userID = $attendie;
-            $FullName = $Row[1]. " " .$Row[2];
-            $Position = $Row[7];
+            $FullName = $Row["FName"]. " " .$Row["LName"];
+            $Position = $Row["Position"];
                 //echo "id: " . $FullName."</br>";
         
             $AttendQuery = "INSERT INTO attendance (ID, Name,position) VALUES (?,?,?)";

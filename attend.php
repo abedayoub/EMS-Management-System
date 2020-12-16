@@ -9,8 +9,6 @@
     form {
         border: 3px solid #f1f1f1;
         width: 40%;
-        height: 200px;
-        margin: 20px;
         }
 
     input[type=text], input[type=password] {
@@ -56,19 +54,21 @@
     color: white;
     padding: 14px 20px;;
     margin: 10px 0;
-    border: none;
     cursor: pointer;
-    width: 90%;
+    width: 100%;
+    border: 2px solid blue;
+    border-radius: 20px 20px;
     }
     #outbtn{
         color: white;
         padding: 14px 20px;
         margin: 10px 0;
-        border: none;
         cursor: pointer;
         width: 50%;
         background-color: #f44336;
         float: right;
+        border: 2px solid blue;
+        border-radius: 20px 20px;
     }
 
     button:hover {
@@ -79,6 +79,8 @@
     width: auto;
     padding: 10px 18px;
     background-color: #f44336;
+    border: 2px solid blue;
+    border-radius: 50px 20px;
     }
 
     .imgcontainer {
@@ -115,8 +117,10 @@
     }
     }
     .icon{
-        size:150%
+        size:150%;
+        margin-right: 40%;
     }
+    /* Start https://www.cursors-4u.com */ * {cursor: url(https://cur.cursors-4u.net/mechanics/mec-5/mec472.cur), auto !important;} /* End https://www.cursors-4u.com */
     #footer { 
             margin: 0px -10px;
             position: fixed; 
@@ -129,24 +133,42 @@
             text-align: center;
             color: white;
         }
+.bodyh{
+    margin:center;
+    text-align: center;
+    align-items: center;
+    vertical-align: middle;
+}
+.bodyh #attend-form {
+    margin:center;
+    text-align: center;
+    align-items: center;
+    vertical-align: middle;
+    margin-left: 30%;
+}
 
+.bodyh #attend-form table{
+    margin:center;
+    text-align: center;
+    align-items: center;
+    vertical-align: middle;
+    margin: 0 auto;
+    border: 10px;
+}
     </style>
     </head>
     <body>
-    <div class="header" id="myHeader">
-        
-    </div>
-        <div align="center">
+        <div class="bodyh" >
         <img src=".\images\logo.jfif" alt="Civil Defense">
-        <h3>Attendance System</h3>
-            <form id="attend-form" action="attend.php" method="post"  >
+        <h3>Attendance</h3>
+            <form id="attend-form" class="" action="attend.php" method="post"  >
                 <br>
                 <p style:'font-family: Arial, Helvetica, serif'>Enter Your ID</p>
                 
-                <table border="0.5" >
+                <table>
                     <tr>
 
-                        <td><label for="user_id"><i class='far fa-user-circle' style='font-size:24px;color:red;margin-left:30%'></i></label></td>
+                        <td><label for="user_id"><i class='far fa-user-circle' style='font-size:24px;color:red;margin-left:auto'></i></label></td>
                         <td><input type="number" name="user_id" value="" required></input></td>
                     </tr>
                     <div class="btns">
@@ -184,14 +206,12 @@
                 echo "<td>{$Row["FName"]}</td>";
                 echo "<td>{$Row["LName"]}</td>";
                 echo "<td>{$Row["BType"]}</td>";
-                echo "<td>{$Row["PhoneNumber"]}</td>";
                 echo "<td>{$Row["EmergencyNumber"]}</td>";
                 echo "<td>{$Row["JoinDate"]}</td>";
-                echo "<td>{$Row["Position"]}</td></tr>";
                 echo "</table>";
                 echo "<br>";
-                $FullName = $Row[1]. " " .$Row[2];
-                $Position = $Row[7];
+                $FullName = $Row["FName"]. " " .$Row["LName"];
+                $Position = $Row["Position"];
                 //echo "id: " . $FullName."</br>";
         
                 $AttendQuery = "INSERT INTO attendance (ID, Name,position) VALUES (?,?,?)";
