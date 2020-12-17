@@ -5,9 +5,10 @@
     </head>
     <body>
     <ul>
-        <li><a href="./Training/">Training</a></li>
-        <li><a href="./Selection/">Selection</a></li>
-        <li><a href="./Operations">Operations</a></li>
+    <li>
+        <a href="http://localhost/EMSmgmt/Training/">Training</a></li>
+        <li><a href="http://localhost/EMSmgmt/Selection/">Selection</a></li>
+        <li><a href="http://localhost/EMSmgmt/Operations/">Operations</a></li>
         <li><a href="http://linkedin.com/in/abedayoub">Meet Me</a></li>
     </ul>
     
@@ -51,7 +52,7 @@ if (isset($_POST['user_id']) and isset($_POST['user_pass'])){
     $count = mysqli_num_rows($result);
 
     if ($count == 1){
-        header('Location: Position.php');
+        header('Location: OPs.php');
         echo "<script type='text/javascript'>alert('Login Credentials verified')</script>";
 
     }else{

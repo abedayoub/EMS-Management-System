@@ -236,12 +236,14 @@ table button{
     require('connection.php');
     $getVolunteers = mysqli_query($connection, "SELECT * from attendance order by TimeStamp asc");
     $Row = mysqli_fetch_array($getVolunteers);
-    $TeamLeader=null;
+    $TeamLeader;
     $Driver;
-    $EMT=null;
-    $Trainee=null;
+    $EMT;
+    $Trainee;
     $flag=true;
-    
+    $getEMTAlt;
+    $EMTAlt;
+
     //get Driver
     $getDriver = mysqli_query($connection, "SELECT * from attendance where position=2 order by TimeStamp asc");
     $Driver = mysqli_fetch_array($getDriver);
@@ -249,52 +251,40 @@ table button{
 
     //get EMT
     $getEMT = mysqli_query($connection, "SELECT * from attendance where position=3 order by TimeStamp asc");
+    $EMT = mysqli_fetch_array($getEMT);
     $countE = mysqli_num_rows($getEMT);
 
     
     //get Team Leader
     $getTeamLeader = mysqli_query($connection, "SELECT * from attendance where position=1 order by TimeStamp asc");
     $countTL = mysqli_num_rows($getTeamLeader);
+    if($countTL >0){
+        $TeamLeader = mysqli_fetch_array($getTeamLeader);
+    } elseif($countE>2 && $countTL<1){
+        $getEMTAlt = mysqli_query($connection, "SELECT * from attendance where position=3 and ID!='$EMT[0]' order by TimeStamp asc");
+        $TeamLeader = mysqli_fetch_array($getEMTAlt);
+        $EMTAlt = mysqli_fetch_array($getEMTAlt);
+    }else{
+        $TeamLeader=NULL;
+    }
 
 
     //get Trainee
     $getTrainee = mysqli_query($connection, "SELECT * from attendance where position=4 order by TimeStamp asc");
     $countT = mysqli_num_rows($getTrainee);
     $countEMT = mysqli_num_rows($getEMT);
-    
-    if($countTL>0 && $countT>0 && $countE>0){
-        $TeamLeader = mysqli_fetch_array($getTeamLeader);
-        $EMT = mysqli_fetch_array($getEMT);
+    if($countT >0){
         $Trainee = mysqli_fetch_array($getTrainee);
-    }elseif($countTL>0 && $countE>1 && $countT==0){
-        $TeamLeader = mysqli_fetch_array($getTeamLeader);
-        $EMT = mysqli_fetch_array($getEMT);
-        $getTempEMT = mysqli_query($connection, "SELECT * from attendance where position=3 and ID!='$EMT[0]' order by TimeStamp asc");
+    }elseif($countEMT>1 && $countTL>1){ 
+        $getTempEMT = mysqli_query($connection, "SELECT * from attendance where position=3 and ID!='$EMTAlt[0]' order by TimeStamp asc");
         $Trainee = mysqli_fetch_array($getTempEMT);
-    }elseif($countTL>1 && $countE==0 && $countT>2){
-        $flag=false;
-    }elseif($countTL==0 && $countE>1 && $countT>0){
-        $EMT = mysqli_fetch_array($getEMT);
-        $getTempTL = mysqli_query($connection, "SELECT * from attendance where position=3 and ID!='$EMT[0]' order by TimeStamp asc");
-        $TeamLeader = mysqli_fetch_array($getTempTL);
-        $Trainee = mysqli_fetch_array($getTrainee);
-    }elseif($countTL==0 && $countE>2 && $countT==0){
-        $EMT = mysqli_fetch_array($getEMT);
-        $getTempTL = mysqli_query($connection, "SELECT * from attendance where position=3 and ID!='$EMT[0]' order by TimeStamp asc");
-        $TeamLeader = mysqli_fetch_array($getTempTL);
-        $getTempT = mysqli_query($connection, "SELECT * from attendance where position=3 and ID!='$TeamLeader[0]' order by TimeStamp asc");
-        $Trainee = mysqli_fetch_array($getTempT);
-    }elseif($countTL==0 && $countE==0 && $countT==0 ){
-        $flag = false;
-    }elseif($countTL>1 && $countE==0 && $countT>0){
-        $TeamLeader = mysqli_fetch_array($getTeamLeader);
-        $getTempEMT = mysqli_query($connection, "SELECT * from attendance where position=1 and ID!='$TeamLeader[0]' order by TimeStamp asc");
-        $EMT = mysqli_fetch_array($getTempEMT);
-        $Trainee = mysqli_fetch_array($getTrainee);
-    }elseif($countTL==0 && $countE>=1 && $countT>=2){
-        $flag = false;
+    }elseif($countEMT>2 && $countTL<1){
+        $getTempEMT = mysqli_query($connection, "SELECT * from attendance where position=3 and ID!='$EMTAlt[0]' order by TimeStamp asc");
+        $TempEMT = mysqli_fetch_array($getTempEMT);
+        $getAltTrainee = mysqli_query($connection, "SELECT * from attendance where position=3 and ID!='$TempEMT[0]' and ID!='$TeamLeader[0]'");
+        $Trainee = mysqli_fetch_array($getAltTrainee);
     }else{
-        $flag = false;
+        $Trainee=NULL;
     }
 
     echo "<table class='container' width='90%' border='1'>";

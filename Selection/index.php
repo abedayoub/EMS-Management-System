@@ -5,9 +5,10 @@
     </head>
     <body>
     <ul>
-        <li><a href="./Training/">Training</a></li>
-        <li><a href="./Selection/">Selection</a></li>
-        <li><a href="./Operations">Operations</a></li>
+    <li>
+        <a href="http://localhost/EMSmgmt/Training/">Training</a></li>
+        <li><a href="http://localhost/EMSmgmt/Selection/">Selection</a></li>
+        <li><a href="http://localhost/EMSmgmt/Operations/">Operations</a></li>
         <li><a href="http://linkedin.com/in/abedayoub">Meet Me</a></li>
     </ul>
     
