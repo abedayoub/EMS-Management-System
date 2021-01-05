@@ -2,6 +2,7 @@
 <html>
     <head><meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="style.css">
+    
     </head>
     <body>
     <ul>
@@ -50,8 +51,7 @@ if (isset($_POST['user_id']) and isset($_POST['user_pass'])){
     $count = mysqli_num_rows($result);
 
     if ($count == 1){
-        header('Location: attend.php');
-        echo "<script type='text/javascript'>alert('Login Credentials verified')</script>";
+        header("Location: ./attend.php");
 
     }else{
         echo "<script type='text/javascript'>alert('Invalid Login Credentials')</script>";

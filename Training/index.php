@@ -5,6 +5,7 @@
     </head>
     <body>
     <ul>
+        <li><a href="http://localhost/EMSmgmt/">Home</a></li> 
         <li><a href="http://localhost/EMSmgmt/Training/">Training</a></li>
         <li><a href="http://localhost/EMSmgmt/Selection/">Selection</a></li>
         <li><a href="http://localhost/EMSmgmt/Operations/">Operations</a></li>

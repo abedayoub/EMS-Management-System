@@ -167,6 +167,7 @@ body {font-family: Arial, Helvetica, sans-serif;}
         }
 
          </style>
+         <title>Selection Division</title>
     </head>
     <BODY>
     <center>
@@ -176,7 +177,7 @@ body {font-family: Arial, Helvetica, sans-serif;}
             <table height="200">
                 <tr>
                 <td>Volunteer ID</td><td><input type="number" name="VID" size="20" required></td>
-                <td>Join Date</td><td><input type="date" data-date="" data-date-format="DD MMMM YYYY" name="JoinDate"></td></tr>
+                <td>Join Year</td><td><input type="number"  name="JoinDate" size="20" required></td></tr>
                 <tr>
                 <td>First Name</td><td><input type="text" name="FName" size="20" required></td>
                 <td>Last Name</td><td><input type="text" name="LName" size="20" required></td></tr>
@@ -195,13 +196,55 @@ body {font-family: Arial, Helvetica, sans-serif;}
                 <option value="U">Unknown</option>
                 </select>
                 </td></tr>
+                
+                <tr >
+                <td>Educational Level</td><td>
+                <select id="BloodTypes" name="Education">
+                <option value="University">University</option>
+                <option value="HighSchool">HighSchool</option>
+                <option value="Technical">Technical</option>
+                <option value="Elementary">Elementary</option>
+                <option value="NonEducated">Non Educated</option>    
+            </select>
+
+                <td>Biological Gender</td><td>
+                <select id="BloodTypes" name="BioGender">
+                <option value="Male">Male</option>
+                <option value="Female">Female</option>
+                </select>
+                </td></tr>
+                
                 <tr>
                 <td>Phone Number</td><td><input type="number" name="PNumber" size="20" required></td>
                 <td>Emergency Number</td><td><input type="number" name="ENumber" size="20" required></td></tr>
                 </Table>
+                <table id="m">
+                <tr>
+                <td>Driving License</td>
+                <div class="checkbox-group" required>
+                <td></td>
+                    <td>    <input type="checkbox" name="driving[]" value="Motorcycle">Motorcycle</td>
+                    <td>    <input type="checkbox" name="driving[]" value="PrivateCar">Private Car</td>
+                    <td>    <input type="checkbox" name="driving[]" value="PublicCar">Public Car</td>
+                    <td>    <input type="checkbox" name="driving[]" value="10Tontruck">10 Ton truck</td>
+                </tr>
+                <tr>
+                    <td><td>
+                    <td>    <input type="checkbox" name="driving[]" value="BigTrucks">Big Trucks</td>
+                    <td>    <input type="checkbox" name="driving[]" value="AgricultureTrucks">Agriculture Trucks</td>
+                    <td>    <input type="checkbox" name="driving[]" value="IndustrialTrucks">Industrial Trucks</td>
+                    <td>    <input type="checkbox" name="driving[]" value="NotHolding">Not Holding</td>
+                <tr>
+                </tr>
+    </div>
+
+                </table>
+                
                 <Table id="med">
                 <tr >
                 <td>Medical Problems</td><td><input  type="text" value="-" name="MedicalProblems" size="20"></td>
+                </tr>               
+                
                 <tr>
                 <td><input id="inBtn" type="submit" name="Submit"></td><td><input id="OutBtn" type="reset" name="Reset"></td></tr>
                 </table>
@@ -210,6 +253,7 @@ body {font-family: Arial, Helvetica, sans-serif;}
         </center>
 
         <?php 
+            $drivings = " ";
             if (isset($_POST['VID']) && isset($_POST['FName']) && isset($_POST['LName']) && isset($_POST['BTypes']) && isset($_POST['PNumber']) && isset($_POST['ENumber']) && isset($_POST['JoinDate']) && isset($_POST['dob'])){
                 $VolunteerID = strip_tags(addslashes($_POST['VID']));
                 $FName = strip_tags(addslashes($_POST['FName']));
@@ -220,18 +264,25 @@ body {font-family: Arial, Helvetica, sans-serif;}
                 $PNumber = strip_tags(addslashes($_POST['PNumber']));
                 $ENumber = strip_tags(addslashes($_POST['ENumber']));
                 $JoinDate = strip_tags(addslashes($_POST['JoinDate']));
-
+                $Education = strip_tags(addslashes($_POST['Education']));
+                $gender = strip_tags(addslashes($_POST['BioGender']));
+                
+                if(!empty($_POST['driving'])) {    
+                    foreach($_POST['driving'] as $value){
+                        $drivings = $drivings."  ".$value."  ";
+                    }
+                }
 
                 require "connection.php";
-                $dbI = mysqli_query($connection, "INSERT INTO `volunteers`(`ID`, `FName`, `LName`, `DOB`, `BType`, `PhoneNumber`, `EmergencyNumber`,`JoinDate`,`Position`, `MedProblem`) VALUES ($VolunteerID,'$FName','$LName','$DOB','$BType',$PNumber,$ENumber,'$JoinDate', 4,'$Med')");
+                $dbI = mysqli_query($connection, "INSERT INTO `volunteers`(`ID`, `FName`, `LName`, `DOB`, `BType`, `PhoneNumber`, `EmergencyNumber`,`JoinDate`,`Position`, `MedProblem`,`DrivingLicense`, `Education`, `gender`) VALUES ($VolunteerID,'$FName','$LName','$DOB','$BType',$PNumber,$ENumber, $JoinDate, 4,'$Med','$drivings','$Education','$gender')");
                 // $dbI = mysqli_query($connection, "INSERT INTO volunteers(ID,FName,LName,BType,PhoneNumber,EmergencyNumber) VALUES(112233, 'hello','world','A+',123,321)");
                 $FullName = $FName. " " .$LName;
                 echo "<center> $FullName has been added</center>";
                 mysqli_close($connection);
             }
         ?>
-        <div id="footer">
-    <p> Beirut Regional Department | Lebanese Civil Defense</p>
+    <div id="footer">
+        <p> Beirut Regional Department | Lebanese Civil Defense</p>
     </div>
     </body>
 </html>
