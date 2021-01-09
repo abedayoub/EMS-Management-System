@@ -25,7 +25,7 @@ if (isset($_POST['user_id']) and isset($_POST['user_pass'])){
             $_SESSION['user'] = $_POST['user_id'];
         }
     }else{
-        echo "<script type='text/javascript'>alert('Invalid Login Credentials')</script>";
+        echo "invalid credentials";
         $message = "Invalid Username or Password!";
         header('Location: index.php');
     }
@@ -39,11 +39,8 @@ if (isset($_POST['user_id']) and isset($_POST['user_pass'])){
     </head>
     <body>
     <ul>
-        <li><a href="./Training/">Training</a></li>
-        <li><a href="./Selection/">Selection</a></li>
-        <li><a href="./Operations">Operations</a></li>
+        <li><a href="http://civildefense.gov.lb">Official Web</a></li>
         <li><a href="http://linkedin.com/in/abedayoub">Meet Me</a></li>
-        <li><a href="./logout.php">Log Out</a></li>
     </ul>
     
 

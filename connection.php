@@ -1,4 +1,5 @@
 <?php
+session_start();
     $connection = mysqli_connect('localhost', 'axioyewb_lcd', 'Ayoub1927');
     if (!$connection){
             die("Database Connection Failed" . mysqli_error($connection));

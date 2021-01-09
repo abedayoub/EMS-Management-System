@@ -11,7 +11,7 @@
         <h1>EMS Management System</h1>
     </div>
 <?php
-include('session.php');
+    include('session.php');
     
     require('connection.php');
     $getVolunteers = mysqli_query($connection, "SELECT * from attendance order by TimeStamp asc");
