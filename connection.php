@@ -1,9 +1,9 @@
 <?php
-    $connection = mysqli_connect('localhost', 'root', '');
+    $connection = mysqli_connect('localhost', 'axioyewb_lcd', 'Ayoub1927');
     if (!$connection){
             die("Database Connection Failed" . mysqli_error($connection));
         }
-        $select_db = mysqli_select_db($connection, 'lcd');
+        $select_db = mysqli_select_db($connection, 'axioyewb_lcd');
         if (!$select_db){
             die("Database Selection Failed" . mysqli_error($connection));
     }
