@@ -205,13 +205,14 @@ body {font-family: Arial, Helvetica, sans-serif;}
     <BODY>
     <center>
     <ul>
+
         <li><a href="http://civildefense.gov.lb">Official Web</a></li>
         <li><a href="http://linkedin.com/in/abedayoub">Meet Me</a></li>
         <li><a href="/logout.php">Log Out</a></li>
     </ul>
     <div class="b">
     <h1> Welcome Selection Division</h1>
-        <form method="POST" action="">
+        <form method="POST" action="" enctype="multipart/form-data">
             <table height="200">
                 <tr>
                 <td>Volunteer ID</td><td><input type="number" name="VID" size="20" required></td>
@@ -281,6 +282,14 @@ body {font-family: Arial, Helvetica, sans-serif;}
                 <Table id="med">
                 <tr >
                 <td>Medical Problems</td><td><input  type="text" value="-" name="MedicalProblems" size="20"></td>
+                </tr>
+                <tr>
+
+                <td>
+                Select document to upload:</td>
+                <td>
+                <input type="file" name="fileToUpload" id="fileToUpload" accept="application/pdf">
+                </td>
                 </tr>               
                 
                 <tr>
@@ -316,7 +325,52 @@ body {font-family: Arial, Helvetica, sans-serif;}
                 $dbI = mysqli_query($connection, "INSERT INTO `volunteers`(`ID`, `FName`, `LName`, `DOB`, `BType`, `PhoneNumber`, `EmergencyNumber`,`JoinDate`,`Position`, `MedProblem`,`DrivingLicense`, `Education`, `gender`) VALUES ($VolunteerID,'$FName','$LName','$DOB','$BType',$PNumber,$ENumber, $JoinDate, 4,'$Med','$drivings','$Education','$gender')");
                 // $dbI = mysqli_query($connection, "INSERT INTO volunteers(ID,FName,LName,BType,PhoneNumber,EmergencyNumber) VALUES(112233, 'hello','world','A+',123,321)");
                 $FullName = $FName. " " .$LName;
-                echo "<center> $FullName has been added</center>";
+                echo "<center> $FullName has been added <br>";
+
+
+                $target_dir = "CV/";
+                $target_file = $target_dir . $FullName.".pdf";
+                $uploadOk = 1;
+                $imageFileType = pathinfo($target_file,PATHINFO_EXTENSION);
+                //Check if image file is a actual image or fake image
+                    //$check = getimagesize($_FILES["fileToUpload"]["tmp_name"]);
+                    // if($check != false) {
+                    //     echo "File is pdf - " . $check["mime"] . ".";
+                    //     $uploadOk = 1;
+                    // } else {
+                    //     echo "File is not a pdf.";
+                    //     $uploadOk = 0;
+                    // }
+                    if($imageFileType != "pdf") {
+                        echo "Sorry, only PDF files are allowed.";
+                        $uploadOk = 0;
+                    }
+                // Check if file already exists
+                if (file_exists($target_file)) {
+                    echo "Sorry, file already exists.";
+                    $uploadOk = 0;
+                }
+                // Check file size
+                if ($_FILES["fileToUpload"]["size"] > 5000000) {
+                    echo "Sorry, your file is too large.";
+                    $uploadOk = 0;
+                }
+                // Allow certain file formats
+                if($imageFileType != "pdf") {
+                    echo "Sorry, only PDF files are allowed.";
+                    $uploadOk = 0;
+                }
+                //Check if $uploadOk is set to 0 by an error
+                if ($uploadOk == 0) {
+                    echo "Sorry, your file was not uploaded.";
+                // if everything is ok, try to upload file
+                } else {
+                    if (move_uploaded_file($_FILES["fileToUpload"]["tmp_name"], $target_file)) {
+                        echo "The file ".$FullName.".pdf has been uploaded.";
+                    } else {
+                        echo "Sorry, there was an error uploading your file.";
+                    }
+                }
                 mysqli_close($connection);
             }
         ?>

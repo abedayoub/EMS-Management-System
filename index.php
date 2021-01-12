@@ -70,6 +70,6 @@ if (isset($_POST['user_id']) and isset($_POST['user_pass'])){
 </div>
     </body>
     <div id="footer">
-    <p> Beirut Regional Department | Lebanese Civil Defense</p>
+    <p> Developed and Designed by <a href="http://github.com/abedayoub">Abed Ayoub</a></p>
     </div>
 </html>

@@ -1,12 +1,10 @@
 <html>
+
+<?php  
+    include('../session.php');
+
+?>
     <head>
-        <meta http-equiv="refresh" content="5">
-        <script src="https://kit.fontawesome.com/yourcode.js"></script>
-        <script>var span = document.getElementsByClassName("close")[0];
-            span.onclick = function() {
-            modal.style.display = "none";
-             }
-        </script>
          <style>
             #next{
             color: white;
@@ -199,6 +197,36 @@ footer{
   to {top: 0; opacity: 1}
 }
 
+ul {
+
+list-style-type: none;
+padding: 0;
+overflow: hidden;
+background-color: #333;
+text-align: center;
+align-items: center;
+vertical-align: middle;
+margin: 0 auto;
+text-align:center;
+}
+
+li {
+display:inline-block;
+}
+
+li a {
+display: block;
+color: white;
+text-align: center;
+padding: 14px 16px;
+text-decoration: none;
+}
+
+/* Change the link color to #111 (black) on hover */
+li a:hover {
+background-color: #111;
+}
+
 /* Start https://www.cursors-4u.com */ * {cursor: url(https://cur.cursors-4u.net/mechanics/mec-5/mec472.cur), auto !important;} /* End https://www.cursors-4u.com */
 
 
@@ -206,8 +234,37 @@ footer{
          <script src='https://kit.fontawesome.com/a076d05399.js'></script>
     </head>
     <body>
-    <div  class="header">
-        <img src="EMT.png" alt="logo" />
-        <h1>EMS Management System</h1>
-    </div>
+    <ul>
+    
+    <img src=".\images\logo.jfif" alt="Civil Defense"><br>
+        <li><a href="/Process.php">EMS Team</a></li>
+        <li><a href="missions.php">Show All Missions</a></li>
+        <li><a href="http://civildefense.gov.lb">Official Web</a></li>
+        <li><a href="http://linkedin.com/in/abedayoub">Meet Me</a></li>
+        <li><a href="/logout.php">Log Out</a></li>
+    </ul>
+    <center>
+    <br><br>
+    <h1> Welcome Operations Team! </h1>
     </body>
+</html>
+
+<?php  
+  include('../connection.php');
+  if (isset($_POST['user_id']) and isset($_POST['user_pass'])){
+      $username = $_POST['user_id'];
+      $password = $_POST['user_pass'];
+      $query = "SELECT * FROM `specialuser` WHERE username='$username' and password='$password' and role=3";
+      $result = mysqli_query($connection, $query) or die(mysqli_error($connection));
+      $count = mysqli_num_rows($result);
+
+      if ($count == 1){
+          header('Location: OPs.php');
+          echo "<script type='text/javascript'>alert('Login Credentials verified')</script>";
+
+      }else{
+          echo "<script type='text/javascript'>alert('Invalid Login Credentials')</script>";
+          header('Location: index.php');
+      }
+  }
+?>

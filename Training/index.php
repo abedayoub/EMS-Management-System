@@ -242,8 +242,8 @@ background-color: #111;
                 mysqli_close($connection);
             }
         ?>
-        <div id="footer">
-    <p> Beirut Regional Department | Lebanese Civil Defense</p>
+    <div id="footer">
+    <p> Developed and Designed by <a href="http://github.com/abedayoub">Abed Ayoub</a></p>
     </div>
     </body>
 </html>
