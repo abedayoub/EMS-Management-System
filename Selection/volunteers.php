@@ -2,6 +2,16 @@
 	<head>
 		<link rel="stylesheet" href="style.css">
 	</head>
+	<body>
+	<ul>
+        
+		<li><a href="index.php"> Home </a></li>
+        <li><a href="volunteers.php">Show Volunteers</a></li>
+        <li><a href="http://civildefense.gov.lb">Official Web</a></li>
+        <li><a href="http://linkedin.com/in/abedayoub">Meet Me</a></li>
+        <li><a href="/logout.php">Log Out</a></li>
+	</ul>
+	<center>
 <?php
 include('../session.php');
 include('../connection.php');
@@ -9,7 +19,7 @@ include('../connection.php');
 if($role_check!=2){
 	header("location:/index.php");
 	die();
-	
+}
 $result = mysqli_query($connection,"SELECT * FROM volunteers");
 echo '
 <div>

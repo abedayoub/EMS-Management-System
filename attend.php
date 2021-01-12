@@ -1,67 +1,7 @@
 <?php 
 
     include('session.php');
-    require "connection.php";       
-    $name="";
-    $userID=0;
-
-    if (isset($_POST['Attend'])) {    
-        $userID = strip_tags(addslashes($_POST['user_id']));
-        if ((isset($userID)) && $userID!=0) {
-            $dbR = mysqli_query($connection, "SELECT * from volunteers where ID='$userID'");
-            $Row = mysqli_fetch_array($dbR);
-            $countIn = mysqli_num_rows($dbR);
-            if($countIn > 0){
-                echo "<center>";
-                echo "<table width='90%' border='1'>";
-                echo "<tr><th>ID No</th><th>FName</th><th>LName</th><th>BType</th><th>Phone Number</th><th>Emergency Number</th><th>Join Date</th><th>Position</th></tr>";
-                
-                echo "<tr><td>{$Row["ID"]}</td>";
-                echo "<td>{$Row["FName"]}</td>";
-                echo "<td>{$Row["LName"]}</td>";
-                echo "<td>{$Row["BType"]}</td>";
-                echo "<td>{$Row["EmergencyNumber"]}</td>";
-                echo "<td>{$Row["JoinDate"]}</td>";
-                echo "</table>";
-                echo "<br>";
-                $FullName = $Row["FName"]. " " .$Row["LName"];
-                $Position = $Row["Position"];
-                //echo "id: " . $FullName."</br>";
-        
-                $AttendQuery = "INSERT INTO attendance (ID, Name,position) VALUES (?,?,?)";
-                $stmt= $connection->prepare($AttendQuery);
-                $stmt->bind_param('isi', $userID, $FullName,$Position);
-                $stmt->execute();
-                echo "<h1>Welcome ".$FullName."</h1>";
-            }elseif($userID=0){
-                
-            }
-            else{
-                echo "<h1>Wrong Credentials</h1>";
-            }
-            mysqli_close($connection);
-        }
-    }
-    elseif (isset($_POST['Out'])) {
-        $userID = strip_tags(addslashes($_POST['user_id']));
-        $userID = $_POST['user_id'];
-        deleteAtt($userID);
-        
-    }
-
-    function deleteAtt(int $attendie) {
-        require('connection.php');
-        // sql to delete a record
-        $deleterecord = "DELETE FROM attendance WHERE ID=$attendie";
-        if ($connection->query($deleterecord) === TRUE) {
-        echo "Record deleted successfully";
-        } else {
-        echo "Error deleting record: " . $connection->error;
-        }
-    }
-    
-    
-?>
+    ?>
 <!DOCTYPE html >
 <html>
     <head>
@@ -245,8 +185,68 @@
                 </table>
             </form>
         </div>
-     <div id="footer">
-    <p> Beirut Regional Department | Lebanese Civil Defense</p>
+        <?php
+    require "connection.php";       
+    $name="";
+    $userID=0;
+
+    if (isset($_POST['Attend'])) {    
+        $userID = strip_tags(addslashes($_POST['user_id']));
+        if ((isset($userID)) && $userID!=0) {
+            $dbR = mysqli_query($connection, "SELECT * from volunteers where ID='$userID'");
+            $Row = mysqli_fetch_array($dbR);
+            $countIn = mysqli_num_rows($dbR);
+            if($countIn > 0){
+                echo "<center>";
+                echo "<table width='90%' border='1'>";
+                echo "<tr><th>ID No</th><th>FName</th><th>LName</th><th>BType</th></tr>";
+                
+                echo "<tr><td>{$Row["ID"]}</td>";
+                echo "<td>{$Row["FName"]}</td>";
+                echo "<td>{$Row["LName"]}</td>";
+                echo "<td>{$Row["BType"]}</td>";
+                echo "</table>";
+                echo "<br>";
+                $FullName = $Row["FName"]. " " .$Row["LName"];
+                $Position = $Row["Position"];
+                //echo "id: " . $FullName."</br>";
+        
+                $AttendQuery = "INSERT INTO attendance (ID, Name,position) VALUES (?,?,?)";
+                $stmt= $connection->prepare($AttendQuery);
+                $stmt->bind_param('isi', $userID, $FullName,$Position);
+                $stmt->execute();
+                echo "<h1>Welcome ".$FullName."</h1>";
+            }elseif($userID=0){
+                
+            }
+            else{
+                echo "<h1>Wrong Credentials</h1>";
+            }
+            mysqli_close($connection);
+        }
+    }
+    elseif (isset($_POST['Out'])) {
+        $userID = strip_tags(addslashes($_POST['user_id']));
+        $userID = $_POST['user_id'];
+        deleteAtt($userID);
+        
+    }
+
+    function deleteAtt(int $attendie) {
+        require('connection.php');
+        // sql to delete a record
+        $deleterecord = "DELETE FROM attendance WHERE ID=$attendie";
+        if ($connection->query($deleterecord) === TRUE) {
+        echo "Record deleted successfully";
+        } else {
+        echo "Error deleting record: " . $connection->error;
+        }
+    }
+    
+    
+?>
+        <div id="footer">
+    <p> Developed and Designed by <a href="http://github.com/abedayoub">Abed Ayoub</a></p>
     </div>
     </body>
 </html>
