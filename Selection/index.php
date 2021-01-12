@@ -1,6 +1,10 @@
 <HTML>
 <?php 
     include('../session.php');
+    if($role_check!=2){
+        header("location:/index.php");
+        die();
+     }
 ?>
     <head>
     <style>

@@ -14,15 +14,14 @@ if (isset($_POST['user_id']) and isset($_POST['user_pass'])){
         // $_SESSION['user'] = $_POST['user_id'];
                 
         $_SESSION["username"] = $username;
+        $_SESSION['role'] = $role['role'];
         if($role['role']==1){
-            header("Location: ./attend.php");
-            $_SESSION['user'] = $_POST['user_id'];
+            header("Location: ./Operations/");
+
         }elseif($role['role']==2){
             header("Location: ./Selection/");
-            $_SESSION['user'] = $_POST['user_id'];
         }elseif($role['role']==3){
             header("Location: ./Training/");
-            $_SESSION['user'] = $_POST['user_id'];
         }
     }else{
         echo "invalid credentials";

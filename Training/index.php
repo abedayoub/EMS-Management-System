@@ -3,6 +3,10 @@
 <HTML>
 <?php 
     include('../session.php');
+    if($_SESSION['role']!=3){
+        header("location:/index.php");
+        die();
+     }
 ?>
     <head>
     <style>

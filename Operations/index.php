@@ -2,6 +2,10 @@
 
 <?php  
     include('../session.php');
+    if($_SESSION['role']!=1){
+      header("location:/index.php");
+      die();
+   }
 
 ?>
     <head>
@@ -239,6 +243,7 @@ background-color: #111;
     <img src=".\images\logo.jfif" alt="Civil Defense"><br>
         <li><a href="/Process.php">EMS Team</a></li>
         <li><a href="missions.php">Show All Missions</a></li>
+        <li><a href="/attend.php"> Attendance</a></li>
         <li><a href="http://civildefense.gov.lb">Official Web</a></li>
         <li><a href="http://linkedin.com/in/abedayoub">Meet Me</a></li>
         <li><a href="/logout.php">Log Out</a></li>

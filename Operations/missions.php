@@ -5,7 +5,12 @@
 <?php
 include('../session.php');
 include('../connection.php');
+if($_SESSION['role']!=1){
+	header("location:/index.php");
+	die();
+ }
 
+ 
 $result = mysqli_query($connection,"SELECT * FROM missions order by TimeStamp desc");
 echo '
 <div>
@@ -36,6 +41,8 @@ echo "<td> " . $row['Trainee'] . "</td>";
 echo "</tr>";
 }
 echo "</tbody></table>";
+
+
 
 mysqli_close($con);
 ?>
