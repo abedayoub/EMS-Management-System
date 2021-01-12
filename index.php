@@ -40,6 +40,11 @@ if (isset($_POST['user_id']) and isset($_POST['user_pass'])){
     <ul>
         <li><a href="http://civildefense.gov.lb">Official Web</a></li>
         <li><a href="http://linkedin.com/in/abedayoub">Meet Me</a></li>
+        <?php 
+            if(isset($_SESSION['username'])!=0){
+                 echo '<li><a href="logout.php">LogOut</a></li>';
+                }
+                  ?>
     </ul>
     
 
